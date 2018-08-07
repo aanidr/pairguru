@@ -1,7 +1,5 @@
 %p.text-center Leave your comment here!
 = form_with model: [@movie, @movie.comments.build], local: true do |form|
   = form.text_area :content, class: 'form-control'
-  = form.hidden_field :movie_id, value: @movie.id
-  = form.hidden_field :user_id, value: current_user.id
   %br/
   = form.submit 'Post the comment', class: 'btn'
