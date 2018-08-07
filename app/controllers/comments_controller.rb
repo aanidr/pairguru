@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
 	before_action :authenticate_user!
+
   def create
 		movie = Movie.find(params[:movie_id])
 		comment = movie.comments.new(params.require(:comment).permit(:content))
