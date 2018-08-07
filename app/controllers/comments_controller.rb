@@ -1,12 +1,24 @@
 class CommentsController < ApplicationController
+
   def create
-		@comment = Comment.new(params.require(:comment).permit(:user_id, :movie_id, :content))
-		flash[:notice] = 'You can\'t have two comments under one movie, please delete old comment first!' if !@comment.save
-		redirect_to "/movies/#{params[:movie_id]}"
+		movie = Movie.find(params[:movie_id])
+		comment = movie.comments.new(params.require(:comment).permit(:content))
+		comment.user_id = current_user.id
+
+		flash[:notice] = 'You can\'t have two comments under one movie, please delete old comment first!' if !comment.save
+		redirect_to movie_path(movie)
   end
 
   def destroy
-		Comment.find(params[:id]).destroy
-		redirect_to "/movies/#{params[:movie_id]}"
+		movie = Movie.find(params[:movie_id])
+		comment = Comment.find(params[:id])
+		if comment.user_id == current_user.id
+			movie.comments.destroy(comment)
+			flash[:notice] = 'Comment has been deleted'
+		else
+			flash[:error] = 'You are not permitted to do that!'
+		end
+
+		redirect_to movie_path(movie)
   end
 end
