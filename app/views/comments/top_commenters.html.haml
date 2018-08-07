@@ -1,0 +1,5 @@
+%h1.text-center Top commenters of the week
+
+%ul.list-group
+	- @commenters.each do |c|
+		%li.list-group-item.text-center= "User #{c.name} with #{pluralize(c.comments_count, 'comment')} made this week"

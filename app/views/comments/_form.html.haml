@@ -1,0 +1,5 @@
+%p.text-center Leave your comment here!
+= form_with model: [@movie, @movie.comments.build], local: true do |form|
+  = form.text_area :content, class: 'form-control'
+  %br/
+  = form.submit 'Post the comment', class: 'btn'
