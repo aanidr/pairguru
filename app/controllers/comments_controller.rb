@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authenticate_user!, except: [:top_commenters]
 
   def create
 		movie = Movie.find(params[:movie_id])
