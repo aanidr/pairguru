@@ -24,6 +24,6 @@ class CommentsController < ApplicationController
   end
 
   def top_commenters
-    @commenters = User.joins('INNER JOIN comments ON users.id = comments.user_id').order("comments.created_at > #{7.days.ago.to_date}").limit(10).select('name, COUNT(comments.id) as comments_count')
+    @commenters = User.joins('INNER JOIN comments ON users.id = comments.user_id').where("comments.created_at > #{7.days.ago.to_date}").limit(10).select('name, COUNT(comments.id) as comments_count').group('users.id').order('comments_count DESC')
   end
 end
